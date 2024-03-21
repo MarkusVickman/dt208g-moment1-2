@@ -4,24 +4,25 @@ body{
 
 input{
     margin-bottom: 10px;
+    width: 210px;
 }
 
 
 main{
-    width: 800px;
+    width: 700px;
     max-width: 100%;
     margin-left: auto;
     margin-right: auto;
 }
 
 form{
-    width: 200px;
+    width: 210px;
     max-width: 100%;
     margin-left: auto;
     margin-right: auto;
 }
 
-button {
+button, .remove.btn {
     background-color: rgb(255, 255, 255);
     padding: 5px;
     border-radius: 10px;
@@ -29,6 +30,8 @@ button {
     box-shadow: inset;
     font-size: 1.1em;
     box-shadow: 3px 3px 3px rgb(0, 0, 0, 0.2);
+    margin-left: auto;
+    margin-right: auto;
 }
 
 button:hover{

@@ -34,15 +34,18 @@ const main = document.getElementById("main") as HTMLBodyElement;
 main.addEventListener("click", function (e: MouseEvent) {
     if (e.target !== null && (e.target as HTMLButtonElement).classList.contains("remove-btn")) {
         let removeCourse = document.getElementById((e.target as HTMLButtonElement).title);
+        let storageKey = (e.target as HTMLButtonElement).title;
 
         if (removeCourse !== null) {
-            localStorage.removeItem((e.target as HTMLButtonElement).title);
-            console.log(localStorage.removeItem((e.target as HTMLButtonElement).title));
+            localStorage.removeItem(storageKey);
+            console.log(storageKey);
             removeCourse.remove();
         }
     }
     else if(e.target !== null && (e.target as HTMLButtonElement).id === "empty-localstorage"){
         localStorage.clear();
+        const courseDiv = document.getElementById("courselist") as HTMLDivElement;
+        courseDiv.innerHTML = "";
     }
 });
 
@@ -56,15 +59,16 @@ function manageCourses(course: CourseInfo): void {
     newCourseDiv.id = course.code;
     newCourseDiv.innerHTML = `
     <h2>${course.name}:</h2>
-    <p><strong>Kurskod:</strong> ${course.code}</p>
-    <p><strong>Kursnamn:</strong> ${course.name}</p>
-    <p><strong>Progression:</strong> ${course.progression}</p>
+    <p><strong>Kurskod:</strong> ${course.code.toUpperCase()}</p>
+    <p><strong>Kursnamn:</strong> ${course.name.charAt(0).toUpperCase() + course.name.slice(1)}</p>
+    <p><strong>Progression:</strong> ${course.progression.toUpperCase()}</p>
     <p><strong>Kursplan:</strong> <a href="${course.syllabus}">${course.syllabus}<a></p>
   `;
     let newButton: HTMLButtonElement = document.createElement("button");
     newButton.classList.add("remove-btn");
-    newButton.title = course.code;
-
+    newButton.title = course.code.toLowerCase();
+    let buttonText: HTMLTextAreaElement = document.createTextNode("Ta bort"); 
+    newButton.appendChild(buttonText);
     newCourseDiv.appendChild(newButton);
     courseDiv.appendChild(newCourseDiv);
 }
@@ -99,9 +103,9 @@ courseForm.addEventListener("submit", (e) => {
     else {
         // Skapa ett användarobjekt
         const newCourse: CourseInfo = {
-            code: codeInput.value.toUpperCase(),
-            name: nameInput.value.charAt(0).toUpperCase() + nameInput.value.slice(1),
-            progression: progressionInput.value.toUpperCase(),
+            code: codeInput.value,
+            name: nameInput.value,
+            progression: progressionInput.value,
             syllabus: syllabusInput.value,
         };
 
