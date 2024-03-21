@@ -6,7 +6,8 @@ interface CourseInfo {
 }
 
 
-/*if (localStorage.length > 0) {
+console.log(localStorage.length);
+if (localStorage.length > 1) {
     for (let i = 0; i < localStorage.length; i++) {
 
         // set iteration key name
@@ -16,7 +17,7 @@ interface CourseInfo {
         const value = localStorage.getItem(key);
         manageCourses((JSON.parse(value)));
     }
-}*/
+}
 
 const main = document.getElementById("main") as HTMLBodyElement;
 
@@ -39,7 +40,6 @@ main.addEventListener("click", function (e: MouseEvent) {
 
         if (removeCourse !== null) {
             localStorage.removeItem(storageKey);
-            console.log(storageKey);
             removeCourse.remove();
         }
     }
@@ -54,24 +54,35 @@ main.addEventListener("click", function (e: MouseEvent) {
         const nameInput = document.getElementById("name" + (e.target as HTMLButtonElement).title) as HTMLInputElement;
         const progressionInput = document.getElementById("progression" + (e.target as HTMLButtonElement).title) as HTMLInputElement;
         const syllabusInput = document.getElementById("syllabus" + (e.target as HTMLButtonElement).title) as HTMLInputElement;
+
+        // Notering: här borde inputvalidering läggas till
+        if (document.getElementById(codeInput.textContent) !== null) {
+            alert(`${codeInput.textContent } finns redan!`);
+        }
+
+        else if (progressionInput.textContent.toUpperCase() !== "A" && progressionInput.textContent.toUpperCase() !== "B" && progressionInput.textContent.toUpperCase() !== "C" && progressionInput.textContent.toUpperCase() !== "AV") {
+            alert(`Progression måste innehålla A, B, C eller AV`);
+            console.log(progressionInput.textContent);
+        }
+
         // Skapa ett användarobjekt
         const editCourse: CourseInfo = {
-            code: codeInput.value,
-            name: nameInput.value,
-            progression: progressionInput.value,
-            syllabus: syllabusInput.value,
+            code: codeInput.textContent,
+            name: nameInput.textContent,
+            progression: progressionInput.textContent,
+            syllabus: syllabusInput.textContent,
         };
 
-        localStorage.setItem(codeInput.value, JSON.stringify(editCourse));
+        localStorage.setItem(codeInput.textContent, JSON.stringify(editCourse));
         // Använd printUserDetails för att skriva ut användardetaljer
         manageCourses(editCourse);
+
     }
 });
 
 
 
 function manageCourses(course: CourseInfo): void {
-    console.log(course.code);
     const courseDiv = document.getElementById("courselist") as HTMLDivElement;
     let newCourseDiv: HTMLDivElement = document.createElement("div");
     newCourseDiv.classList.add("newdiv");
@@ -116,18 +127,18 @@ courseForm.addEventListener("submit", (e) => {
     const progressionInput = document.getElementById("progression") as HTMLInputElement;
     const syllabusInput = document.getElementById("syllabus") as HTMLInputElement;
 
+    let alert = document.getElementById("alert") as HTMLParagraphElement;
+    let alert2 = document.getElementById("alert2") as HTMLParagraphElement;
     // Notering: här borde inputvalidering läggas till
     if (document.getElementById(codeInput.value) !== null) {
-        let alert = document.getElementById("alert") as HTMLParagraphElement;
         alert.innerHTML = `
     <p style="color:Red;"><strong>${codeInput.value} finns redan i listan!</strong></p>
     `;
     }
 
-    else if (progressionInput.value.toUpperCase() !== "A" && progressionInput.value.toUpperCase() !== "B" && progressionInput.value.toUpperCase() !== "C") {
-        let alert2 = document.getElementById("alert2") as HTMLParagraphElement;
+    else if (progressionInput.value.toUpperCase() !== "A" && progressionInput.value.toUpperCase() !== "B" && progressionInput.value.toUpperCase() !== "C" && progressionInput.value.toUpperCase() !== "AV") {
         alert2.innerHTML = `
-    <p style="color:Red;"><strong>Progression får endast vara A, B eller C!</strong></p>
+    <p style="color:Red;"><strong>Progression får endast vara A, B, C eller AV!</strong></p>
     `;
     }
     else {
