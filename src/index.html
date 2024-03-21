@@ -6,10 +6,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DT208G Moment 1.2</title>
     <script src="script.ts" type="module"></script>
-
+    <!--Länk till css-fil-->
+    <link rel="stylesheet" href="css/main.css">
 </head>
 
 <body>
+    <header></header>
+    <main id="main">
+        <h1>Lagra dina kurser</h1>
+        <p>På den här webbplatsen kan du lagra kurser du har avslutat eller varför
+            inte lista upp kurser som du har tänkt att studera. Fyll i kurskod, kursnamn,
+            URL till kursplanen och om det är en A, B eller C kurs.</p>
+        <form id="courseform">
+            <label for="code">Kurskod:</label><br>
+            <input type="text" id="code" required>
+            <br>
+            <label for="name">Kursnamn:</label><br>
+            <input type="text" id="name" required>
+            <br>
+            <label for="progression">Progression:</label><br>
+            <input type="text" id="progression" required>
+            <br>
+            <label for="syllabus">Länk till kursplan</label><br>
+            <input type="url" id="syllabus" required>
+            <br>
+            <button type="submit">Spara kurs</button>
+        </form>
+        <button id="empty-localstorage">Töm listan</button>
+        <p id="alert"></p>
+        <p id="alert2"></p>
+        <article>
+            <h2>Din kurslista</h2>
+            <div id="courselist"></div>
+        </article>
+
+    </main>
 
 </body>
 
