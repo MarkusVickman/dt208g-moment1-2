@@ -34,7 +34,7 @@ function restoreData(): void{
 
 /*Eventlistener för för knappar som skapas i denna kod. Det hade gått att lösa snyggare om den initierat olika
  funktioner istället för att köra så mycket kod direkt i lyssnaren(vilket den gör på ett par ställen).*/
-main.addEventListener("click", function (e: MouseEvent) {
+main.addEventListener("click", function (e) {
     alert1.innerHTML = "";
     alert2.innerHTML = "";
 
