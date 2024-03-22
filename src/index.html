@@ -15,7 +15,7 @@
             inte lista upp kurser som du har tänkt att studera. Fyll i kurskod, kursnamn,
             URL till kursplanen och om det är en A, B, C eller AV kurs. Det går även att 
             redigera kursinformationen direkt på respektive rad och allt sparas lokalt på din dator.</p>
-            <!--Formulär för att skriva in kurser som lagras till lokalstorage-->
+            <!--Formulär för att skriva in kurser som lagras till lokalstorage. URLEN fungerar smidigare sparad som text för mobilanvändare-->
         <form id="courseform">
             <label for="code">Kurskod:</label><br>
             <input type="text" id="code" required>
@@ -27,7 +27,7 @@
             <input type="text" id="progression" required>
             <br>
             <label for="syllabus">Länk till kursplan</label><br>
-            <input type="url" id="syllabus" required>
+            <input type="text" id="syllabus">
             <br>
             <button type="submit">Spara</button>       
             <button type="button" id="empty-localstorage">Radera listan</button>
