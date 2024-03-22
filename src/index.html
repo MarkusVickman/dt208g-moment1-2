@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="sv">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,14 +8,14 @@
     <!--Länk till css-fil-->
     <link rel="stylesheet" href="css/main.css">
 </head>
-
 <body>
-    <header></header>
     <main id="main">
         <h1>Lagra dina kurser</h1>
         <p>På den här webbplatsen kan du lagra kurser du har avslutat eller varför
             inte lista upp kurser som du har tänkt att studera. Fyll i kurskod, kursnamn,
-            URL till kursplanen och om det är en A, B eller C kurs.</p>
+            URL till kursplanen och om det är en A, B, C eller AV kurs. Det går även att 
+            redigera kursinformationen direkt på respektive rad och allt sparas lokalt på din dator.</p>
+            <!--Formulär för att skriva in kurser som lagras till lokalstorage-->
         <form id="courseform">
             <label for="code">Kurskod:</label><br>
             <input type="text" id="code" required>
@@ -33,16 +32,13 @@
             <button type="submit">Spara</button>       
             <button type="button" id="empty-localstorage">Radera listan</button>
         </form>
-
+        <!--Meddelande för när formuläret oven fyllts i-->
         <p id="alert"></p>
         <p id="alert2"></p>
         <article>
             <h2>Din kurslista</h2>
             <div id="courselist"></div>
         </article>
-
     </main>
-
 </body>
-
 </html>
