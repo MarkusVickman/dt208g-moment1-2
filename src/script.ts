@@ -1,3 +1,7 @@
+let alert1 = document.getElementById("alert") as HTMLParagraphElement;
+let alert2 = document.getElementById("alert2") as HTMLParagraphElement;
+const courseDiv = document.getElementById("courselist") as HTMLDivElement;
+
 interface CourseInfo {
     code: string;
     name: string;
@@ -5,19 +9,26 @@ interface CourseInfo {
     syllabus: string;
 }
 
+restoreData();
 
-console.log(localStorage.length);
-if (localStorage.length > 1) {
-    for (let i = 0; i < localStorage.length; i++) {
+function restoreData(){
 
-        // set iteration key name
-        const key = localStorage.key(i);
+    courseDiv.innerHTML = "";
+    if (localStorage.length >= 1) {
+        for (let i = 0; i < localStorage.length; i++) {
+    
+            // set iteration key name
+            const key = localStorage.key(i);
+    
+            // use key name to retrieve the corresponding value
+            const value = localStorage.getItem(key);
+            manageCourses((JSON.parse(value)));
 
-        // use key name to retrieve the corresponding value
-        const value = localStorage.getItem(key);
-        manageCourses((JSON.parse(value)));
+            console.log(key + " " + value);
+        }
     }
 }
+
 
 const main = document.getElementById("main") as HTMLBodyElement;
 
@@ -34,10 +45,13 @@ const main = document.getElementById("main") as HTMLBodyElement;
 
 
 main.addEventListener("click", function (e: MouseEvent) {
+    alert1.innerHTML = "";
+    alert2.innerHTML = "";
+
     if (e.target !== null && (e.target as HTMLButtonElement).classList.contains("remove-btn")) {
         let removeCourse = document.getElementById((e.target as HTMLButtonElement).title);
         let storageKey = (e.target as HTMLButtonElement).title;
-
+        console.log(removeCourse);
         if (removeCourse !== null) {
             localStorage.removeItem(storageKey);
             removeCourse.remove();
@@ -45,65 +59,78 @@ main.addEventListener("click", function (e: MouseEvent) {
     }
     else if (e.target !== null && (e.target as HTMLButtonElement).id === "empty-localstorage") {
         localStorage.clear();
-        const courseDiv = document.getElementById("courselist") as HTMLDivElement;
         courseDiv.innerHTML = "";
     }
 
     else if (e.target !== null && (e.target as HTMLButtonElement).classList.contains("update-btn")) {
-        const codeInput = document.getElementById("code" + (e.target as HTMLButtonElement).title) as HTMLInputElement;
-        const nameInput = document.getElementById("name" + (e.target as HTMLButtonElement).title) as HTMLInputElement;
-        const progressionInput = document.getElementById("progression" + (e.target as HTMLButtonElement).title) as HTMLInputElement;
-        const syllabusInput = document.getElementById("syllabus" + (e.target as HTMLButtonElement).title) as HTMLInputElement;
+        const codeInput = (document.getElementById("code" + (e.target as HTMLButtonElement).title) as HTMLInputElement).textContent.toUpperCase();
+        const nameInput = (document.getElementById("name" + (e.target as HTMLButtonElement).title) as HTMLInputElement).textContent;
+        const progressionInput = (document.getElementById("progression" + (e.target as HTMLButtonElement).title) as HTMLInputElement).textContent.toUpperCase();
+        const syllabusInput = (document.getElementById("syllabus" + (e.target as HTMLButtonElement).title) as HTMLInputElement).textContent;
+        const originalCode: string = (e.target as HTMLButtonElement).title;
+        let testKey: string = codeInput;//document.getElementById("code" + (e.target as HTMLButtonElement).title).textContent;
 
-        // Notering: här borde inputvalidering läggas till
-        if (document.getElementById(codeInput.textContent) !== null) {
-            alert(`${codeInput.textContent } finns redan!`);
-        }
-
-        else if (progressionInput.textContent.toUpperCase() !== "A" && progressionInput.textContent.toUpperCase() !== "B" && progressionInput.textContent.toUpperCase() !== "C" && progressionInput.textContent.toUpperCase() !== "AV") {
+        if (progressionInput !== "A" && progressionInput !== "B" && progressionInput !== "C" && progressionInput !== "AV") {
             alert(`Progression måste innehålla A, B, C eller AV`);
-            console.log(progressionInput.textContent);
         }
 
-        // Skapa ett användarobjekt
-        const editCourse: CourseInfo = {
-            code: codeInput.textContent,
-            name: nameInput.textContent,
-            progression: progressionInput.textContent,
-            syllabus: syllabusInput.textContent,
-        };
+        else {
+            // Skapa ett användarobjekt
+            const editCourse: CourseInfo = {
+                code: codeInput,
+                name: nameInput,
+                progression: progressionInput,
+                syllabus: syllabusInput,
+            };
 
-        localStorage.setItem(codeInput.textContent, JSON.stringify(editCourse));
-        // Använd printUserDetails för att skriva ut användardetaljer
-        manageCourses(editCourse);
+            localStorage.removeItem(originalCode);
 
+            alert(`Redigering av kurs ${codeInput} är nu lagrad.`);
+            document.getElementById((e.target as HTMLButtonElement).title).remove();
+            console.log(document.getElementById((e.target as HTMLButtonElement).title));
+
+
+            // Notering: här borde inputvalidering läggas till
+            for (let i = 0; i < localStorage.length; i++) {
+
+                // set iteration key name
+                const key = localStorage.key(i);
+                console.log(testKey + " " + key + " " + originalCode);
+                if (testKey === key /*&& testKey !== originalCode*/) {
+                    //localStorage.removeItem(testKey);
+                    alert(`${codeInput} fanns redan och är översparad!`);
+                }
+            }
+            localStorage.setItem(codeInput, JSON.stringify(editCourse));
+            restoreData();
+        }
     }
 });
 
 
 
 function manageCourses(course: CourseInfo): void {
-    const courseDiv = document.getElementById("courselist") as HTMLDivElement;
+
     let newCourseDiv: HTMLDivElement = document.createElement("div");
     newCourseDiv.classList.add("newdiv");
 
     newCourseDiv.id = course.code;
     newCourseDiv.innerHTML = `
-    <h2>${course.name}:</h2>
-    <p><strong>Kurskod:</strong><span contenteditable="true" id="code${course.code}" class="edit"> ${course.code.toUpperCase()} </span></p>
-    <p><strong>Kursnamn:</strong><span contenteditable="true" id="name${course.code}" class="edit"> ${course.name.charAt(0).toUpperCase() + course.name.slice(1)}</span></p>
-    <p><strong>Progression:</strong><span contenteditable="true" id="progression${course.code}" class="edit"> ${course.progression.toUpperCase()}</span></p>
+    <h2>${course.name.toUpperCase()}:</h2>
+    <p><strong>Kurskod:</strong><span contenteditable="true" id="code${course.code}" class="edit">${course.code}</span></p>
+    <p><strong>Kursnamn:</strong><span contenteditable="true" id="name${course.code}" class="edit">${course.name.charAt(0).toUpperCase() + course.name.slice(1)}</span></p>
+    <p><strong>Progression:</strong><span contenteditable="true" id="progression${course.code}" class="edit">${course.progression}</span></p>
     <p><strong>Kursplan:</strong> <a href="${course.syllabus}" contenteditable="true" id="syllabus${course.code}" class="edit">${course.syllabus}<a></p>
   `;
     let removeButton: HTMLButtonElement = document.createElement("button");
     removeButton.classList.add("remove-btn");
-    removeButton.title = course.code.toLowerCase();
+    removeButton.title = course.code;
     let removeText: HTMLTextAreaElement = document.createTextNode("Ta bort");
     removeButton.appendChild(removeText);
 
     let updateButton: HTMLButtonElement = document.createElement("button");
     updateButton.classList.add("update-btn");
-    updateButton.title = course.code.toLowerCase();
+    updateButton.title = course.code;
     let updateText: HTMLTextAreaElement = document.createTextNode("Uppdatera");
     updateButton.appendChild(updateText);
 
@@ -122,35 +149,36 @@ courseForm.addEventListener("submit", (e) => {
     e.preventDefault();
 
     // Hämta värden från formuläret
-    const codeInput = document.getElementById("code") as HTMLInputElement;
-    const nameInput = document.getElementById("name") as HTMLInputElement;
-    const progressionInput = document.getElementById("progression") as HTMLInputElement;
-    const syllabusInput = document.getElementById("syllabus") as HTMLInputElement;
+    const codeInput = (document.getElementById("code") as HTMLInputElement).value.toUpperCase();
+    const nameInput = (document.getElementById("name") as HTMLInputElement).value;
+    const progressionInput = (document.getElementById("progression") as HTMLInputElement).value.toUpperCase();
+    const syllabusInput = (document.getElementById("syllabus") as HTMLInputElement).value;
 
-    let alert = document.getElementById("alert") as HTMLParagraphElement;
-    let alert2 = document.getElementById("alert2") as HTMLParagraphElement;
+
     // Notering: här borde inputvalidering läggas till
-    if (document.getElementById(codeInput.value) !== null) {
-        alert.innerHTML = `
-    <p style="color:Red;"><strong>${codeInput.value} finns redan i listan!</strong></p>
+    if (document.getElementById(codeInput) !== null) {
+        alert1.innerHTML = `
+    <p style="color:Red;"><strong>${codeInput} finns redan i listan!</strong></p>
     `;
     }
 
-    else if (progressionInput.value.toUpperCase() !== "A" && progressionInput.value.toUpperCase() !== "B" && progressionInput.value.toUpperCase() !== "C" && progressionInput.value.toUpperCase() !== "AV") {
+    else if (progressionInput !== "A" && progressionInput !== "B" && progressionInput !== "C" && progressionInput !== "AV") {
         alert2.innerHTML = `
     <p style="color:Red;"><strong>Progression får endast vara A, B, C eller AV!</strong></p>
     `;
     }
     else {
+        alert1.innerHTML = `<p style="color:Green;"><strong>${codeInput} är sparad i listan</strong></p>`;
+        alert2.innerHTML = "";
         // Skapa ett användarobjekt
         const newCourse: CourseInfo = {
-            code: codeInput.value,
-            name: nameInput.value,
-            progression: progressionInput.value,
-            syllabus: syllabusInput.value,
+            code: codeInput,
+            name: nameInput,
+            progression: progressionInput,
+            syllabus: syllabusInput,
         };
 
-        localStorage.setItem(codeInput.value, JSON.stringify(newCourse));
+        localStorage.setItem(codeInput, JSON.stringify(newCourse));
         // Använd printUserDetails för att skriva ut användardetaljer
         manageCourses(newCourse);
 
