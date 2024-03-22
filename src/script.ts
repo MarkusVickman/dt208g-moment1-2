@@ -23,8 +23,6 @@ function restoreData(){
             // use key name to retrieve the corresponding value
             const value = localStorage.getItem(key);
             manageCourses((JSON.parse(value)));
-
-            console.log(key + " " + value);
         }
     }
 }
@@ -51,7 +49,6 @@ main.addEventListener("click", function (e: MouseEvent) {
     if (e.target !== null && (e.target as HTMLButtonElement).classList.contains("remove-btn")) {
         let removeCourse = document.getElementById((e.target as HTMLButtonElement).title);
         let storageKey = (e.target as HTMLButtonElement).title;
-        console.log(removeCourse);
         if (removeCourse !== null) {
             localStorage.removeItem(storageKey);
             removeCourse.remove();
@@ -74,6 +71,10 @@ main.addEventListener("click", function (e: MouseEvent) {
             alert(`Progression måste innehålla A, B, C eller AV`);
         }
 
+        else if (codeInput.length === 0 || progressionInput.length === 0 || nameInput.length === 0 || syllabusInput.length === 0 ){
+            alert("Fyll i alla fält");
+        }
+
         else {
             // Skapa ett användarobjekt
             const editCourse: CourseInfo = {
@@ -87,7 +88,6 @@ main.addEventListener("click", function (e: MouseEvent) {
 
             alert(`Redigering av kurs ${codeInput} är nu lagrad.`);
             document.getElementById((e.target as HTMLButtonElement).title).remove();
-            console.log(document.getElementById((e.target as HTMLButtonElement).title));
 
 
             // Notering: här borde inputvalidering läggas till
@@ -95,7 +95,6 @@ main.addEventListener("click", function (e: MouseEvent) {
 
                 // set iteration key name
                 const key = localStorage.key(i);
-                console.log(testKey + " " + key + " " + originalCode);
                 if (testKey === key /*&& testKey !== originalCode*/) {
                     //localStorage.removeItem(testKey);
                     alert(`${codeInput} fanns redan och är översparad!`);
@@ -116,7 +115,7 @@ function manageCourses(course: CourseInfo): void {
 
     newCourseDiv.id = course.code;
     newCourseDiv.innerHTML = `
-    <h2>${course.name.toUpperCase()}:</h2>
+    <h2>${course.name.charAt(0).toUpperCase() + course.name.slice(1)}:</h2>
     <p><strong>Kurskod:</strong><span contenteditable="true" id="code${course.code}" class="edit">${course.code}</span></p>
     <p><strong>Kursnamn:</strong><span contenteditable="true" id="name${course.code}" class="edit">${course.name.charAt(0).toUpperCase() + course.name.slice(1)}</span></p>
     <p><strong>Progression:</strong><span contenteditable="true" id="progression${course.code}" class="edit">${course.progression}</span></p>
@@ -153,7 +152,6 @@ courseForm.addEventListener("submit", (e) => {
     const nameInput = (document.getElementById("name") as HTMLInputElement).value;
     const progressionInput = (document.getElementById("progression") as HTMLInputElement).value.toUpperCase();
     const syllabusInput = (document.getElementById("syllabus") as HTMLInputElement).value;
-
 
     // Notering: här borde inputvalidering läggas till
     if (document.getElementById(codeInput) !== null) {
