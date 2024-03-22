@@ -1,3 +1,4 @@
+/*SUPERSNYGG BAKGRUNDFÄRG*/
 body{
     background-color: rgba(215, 209, 146, 1);
 }
@@ -8,6 +9,7 @@ input{
 }
 
 
+/*begränsar vidd på main*/
 main{
     width: 700px;
     max-width: 100%;
@@ -15,6 +17,7 @@ main{
     margin-right: auto;
 }
 
+/*responsivt formulär*/
 form{
     width: 210px;
     max-width: 100%;
@@ -22,6 +25,7 @@ form{
     margin-right: auto;
 }
 
+/*Styling av knappar*/
 button, .remove.btn {
     background-color: rgb(255, 255, 255);
     padding: 5px;
@@ -34,29 +38,35 @@ button, .remove.btn {
     margin-right: 5px;
 }
 
+/*Hover effekt till knappar*/
 button:hover{
     background-color: rgb(186, 244, 225);
     box-shadow: 3px 3px 3px rgb(0, 0, 0, 0.4);
 }
 
+/*styling av div till inläggen*/
 .newdiv{
     background-color:  rgb(200, 194, 137);
     padding: 10px;
     border-radius: 10px;
 }
 
+/*hover effekt*/
 .newdiv:hover{
-    background-color: rgb(193, 178, 45);
+    background-color: rgb(187, 180, 120);
     padding: 10px;
     border-radius: 10px;
 }
 
+/*Padding till raderna i vardera inlägg*/ 
 .edit{
     padding: 5px;
 }
 
-.edit:hover {
+/*hover effekt för att visa att det är inputfält*/
+.edit:hover, .edit:focus {
     border-style: solid;
     border-color: white;
-    border-width: 2px;
+    border-width: 3px;
+    border-radius: 5px;
 }
