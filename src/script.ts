@@ -151,9 +151,9 @@ courseForm.addEventListener("submit", (e) => {
     `;
     }
     // testar om det är en webbadress istället för genom html. I htmlformuläret gav ingen tydlig fel indikation på mobiltelefoner så byggde en egen.
-    else if (syllabusInput.length > 0 && syllabusInput.toLowerCase().includes("http") === false) {
+    else if (syllabusInput.length > 0 && syllabusInput.toLowerCase().includes("www") === false) {
         alert2.innerHTML = `
-        <p style="color:Red;"><strong>Webbadressen måste innehålla "https://" eller "http://". Fältet kan också lämnas tomt.</strong></p>
+        <p style="color:Red;"><strong>Webbadressen måste innehålla www. Fältet kan också lämnas tomt.</strong></p>
         `;
     }
     //Annars skapas ett objekt med inputdata och en bekräftelse skrivs ut.
