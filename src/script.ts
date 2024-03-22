@@ -19,7 +19,7 @@ interface CourseInfo {
 
 //Vid start körs funktionen restoreData som läser in från localstorage. Funktionen körs också vid uppdatering av inlägg.
 restoreData();
-function restoreData(): void{
+function restoreData(): void {
     courseDiv.innerHTML = "";
     if (localStorage.length >= 1) {
         for (let i = 0; i < localStorage.length; i++) {
@@ -55,7 +55,7 @@ main.addEventListener("click", function (e) {
     }
 
     /*Större if sats med if/ else if-satser i sig. Vid klick på uppdateringsknappen läser alla textsträngar in med hjälp av prefix + kurskod. Texten formateras lite enkelt också. 
-    Dessa testas för att alla fält är ifyllda på rätt sätt och get alert utifrån det. Sidan och localstorage uppdateras också med hjälp av knappens titel.*/ 
+    Dessa testas för att alla fält är ifyllda på rätt sätt och get alert utifrån det. Sidan och localstorage uppdateras också med hjälp av knappens titel.*/
     else if (e.target !== null && (e.target as HTMLButtonElement).classList.contains("update-btn")) {
         const codeInput: string = (document.getElementById("code" + (e.target as HTMLButtonElement).title) as HTMLInputElement).textContent!.toUpperCase();
         const nameInput: string = (document.getElementById("name" + (e.target as HTMLButtonElement).title) as HTMLInputElement).textContent!;
@@ -68,7 +68,7 @@ main.addEventListener("click", function (e) {
             alert(`Progression måste innehålla A, B, C eller AV`);
         }
         //Checkar så att alla fält är ifyllda
-        else if (codeInput.length === 0 || progressionInput.length === 0 || nameInput.length === 0 || syllabusInput.length === 0 ){
+        else if (codeInput.length === 0 || progressionInput.length === 0 || nameInput.length === 0 || syllabusInput.length === 0) {
             alert("Fyll i alla fält");
         }
         //Om inget av de övriga gav "positivt" så skapas en nytt objekt utifrån interfacen CoursInfo
@@ -136,6 +136,7 @@ courseForm.addEventListener("submit", (e) => {
     const codeInput: string = (document.getElementById("code") as HTMLInputElement).value.toUpperCase();
     const nameInput: string = (document.getElementById("name") as HTMLInputElement).value;
     const progressionInput: string = (document.getElementById("progression") as HTMLInputElement).value.toUpperCase();
+    //Sparas som text
     const syllabusInput: string = (document.getElementById("syllabus") as HTMLInputElement).value;
     // testar om kurkoden redan finns på sidan, ger då felmeddelande
     if (document.getElementById(codeInput) !== null) {
@@ -148,6 +149,12 @@ courseForm.addEventListener("submit", (e) => {
         alert2.innerHTML = `
     <p style="color:Red;"><strong>Progression får endast vara A, B, C eller AV!</strong></p>
     `;
+    }
+    // testar om det är en webbadress istället för genom html. I htmlformuläret gav ingen tydlig fel indikation på mobiltelefoner så byggde en egen.
+    else if (syllabusInput.length > 0 && syllabusInput.includes("http") === false) {
+        alert2.innerHTML = `
+        <p style="color:Red;"><strong>Webbadressen måste innehålla "https://" eller "http://". Fältet kan också lämnas tomt.</strong></p>
+        `;
     }
     //Annars skapas ett objekt med inputdata och en bekräftelse skrivs ut.
     else {
