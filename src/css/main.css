@@ -31,7 +31,6 @@ button, .remove.btn {
     padding: 5px;
     border-radius: 10px;
     border-style: none;
-    box-shadow: inset;
     font-size: 1.1em;
     box-shadow: 3px 3px 3px rgb(0, 0, 0, 0.2);
     margin-left: 5px;
@@ -49,6 +48,7 @@ button:hover{
     background-color:  rgb(200, 194, 137);
     padding: 10px;
     border-radius: 10px;
+    margin-bottom: 20px;
 }
 
 /*hover effekt*/
