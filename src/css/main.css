@@ -35,8 +35,8 @@ button, .remove.btn {
     box-shadow: 3px 3px 3px rgb(0, 0, 0, 0.2);
     margin-left: 5px;
     margin-right: 5px;
-    /*För att knapptext ska visas korrekt i safari på iphone*/
-    -webkit-text-fill-color:black;
+    /*För att knapptext ska visas korrekt i safari på iphone
+    -webkit-text-fill-color:black;*/
 }
 
 /*Hover effekt till knappar*/
